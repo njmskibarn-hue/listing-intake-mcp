@@ -4,7 +4,7 @@ from typing import Any, Dict, Optional
 import httpx
 from fastmcp import FastMCP
 
-# ── env vars ────────────────────────────────────────────────────────────────
+# ── env vars ─────────────────────────────────────────────────────────────────
 MCP_ACCESS_TOKEN = os.getenv("MCP_ACCESS_TOKEN")
 BACKEND_BASE_URL = os.getenv(
     "BACKEND_BASE_URL",
@@ -15,7 +15,7 @@ BACKEND_API_KEY = os.getenv("BACKEND_API_KEY")
 if not MCP_ACCESS_TOKEN:
     raise RuntimeError("MCP_ACCESS_TOKEN must be set in environment variables")
 
-# ── FastMCP server ───────────────────────────────────────────────────────────
+# ── FastMCP server ────────────────────────────────────────────────────────────
 mcp = FastMCP("listing-intake-mcp")
 
 
@@ -46,7 +46,7 @@ async def _patch(path: str, payload: Dict[str, Any]) -> Any:
             return {"raw": resp.text, "status_code": resp.status_code}
 
 
-# ── tools ────────────────────────────────────────────────────────────────────
+# ── tools ─────────────────────────────────────────────────────────────────────
 
 @mcp.tool()
 async def health_check() -> dict:
@@ -84,8 +84,5 @@ async def mark_item_listed(item_number: str) -> dict:
 
 
 # ── run ───────────────────────────────────────────────────────────────────────
-mcp_app = mcp.http_app(path="/mcp")
 if __name__ == "__main__":
-    import uvicorn
-    http_app = mcp.http_app(path="/mcp")
-    uvicorn.run(http_app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
+    mcp.run(transport="http", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
