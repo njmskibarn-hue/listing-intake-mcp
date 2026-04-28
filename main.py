@@ -84,6 +84,7 @@ async def mark_item_listed(item_number: str) -> dict:
 
 
 # ── run ───────────────────────────────────────────────────────────────────────
+mcp_app = mcp.http_app(path="/mcp")
 if __name__ == "__main__":
     import uvicorn
     http_app = mcp.http_app(path="/mcp")
