@@ -4,7 +4,6 @@ from typing import Any, Dict, Optional
 import httpx
 from fastmcp import FastMCP
 
-# ── env vars ─────────────────────────────────────────────────────────────────
 MCP_ACCESS_TOKEN = os.getenv("MCP_ACCESS_TOKEN")
 BACKEND_BASE_URL = os.getenv(
     "BACKEND_BASE_URL",
@@ -15,7 +14,6 @@ BACKEND_API_KEY = os.getenv("BACKEND_API_KEY")
 if not MCP_ACCESS_TOKEN:
     raise RuntimeError("MCP_ACCESS_TOKEN must be set in environment variables")
 
-# ── FastMCP server ────────────────────────────────────────────────────────────
 mcp = FastMCP("listing-intake-mcp")
 
 
@@ -46,8 +44,6 @@ async def _patch(path: str, payload: Dict[str, Any]) -> Any:
             return {"raw": resp.text, "status_code": resp.status_code}
 
 
-# ── tools ─────────────────────────────────────────────────────────────────────
-
 @mcp.tool()
 async def health_check() -> dict:
     """Check health of the listing intake backend."""
@@ -56,11 +52,7 @@ async def health_check() -> dict:
 
 @mcp.tool()
 async def list_items(status: Optional[str] = None) -> dict:
-    """
-    List intake items.
-    Pass status='ready' to get only items ready for listing.
-    Pass status='pending' for pending items. Omit for all items.
-    """
+    """List intake items. Pass status='ready', 'pending', or omit for all."""
     params = {"status": status} if status else {}
     return await _get("/v1/intake/items", params=params)
 
@@ -83,6 +75,9 @@ async def mark_item_listed(item_number: str) -> dict:
     return await _patch(f"/v1/intake/items/{item_number}", {"status": "listed"})
 
 
-# ── run ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
+    mcp.run(
+        transport="streamable-http",
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", 8000)),
+    )
