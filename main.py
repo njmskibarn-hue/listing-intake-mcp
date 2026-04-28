@@ -2,9 +2,7 @@ import os
 from typing import Any, Dict, Optional
 
 import httpx
-import uvicorn
 from fastmcp import FastMCP
-from fastmcp.server.http import create_streamable_http_app
 
 # ── env vars ─────────────────────────────────────────────────────────────────
 MCP_ACCESS_TOKEN = os.getenv("MCP_ACCESS_TOKEN")
@@ -87,5 +85,4 @@ async def mark_item_listed(item_number: str) -> dict:
 
 # ── run ───────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    app = create_streamable_http_app(mcp)
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
