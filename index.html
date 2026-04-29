@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>listing-intake-mobile</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{--text-xs:clamp(.75rem,.7rem + .25vw,.875rem);--text-sm:clamp(.875rem,.8rem + .35vw,1rem);--text-base:clamp(1rem,.95rem + .25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);--text-xl:clamp(1.5rem,1.2rem + 1.25vw,2rem);--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;--color-border:#d4d1ca;--color-text:#28251d;--color-text-muted:#7a7974;--color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-highlight:#cedcd8;--color-danger:#c0392b;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--shadow-sm:0 1px 2px rgba(0,0,0,.06);--font-body:'Satoshi', system-ui, sans-serif}
+    [data-theme="dark"]{--color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;--color-border:#393836;--color-text:#cdccca;--color-text-muted:#797876;--color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-highlight:#313b3b;--shadow-sm:0 1px 2px rgba(0,0,0,.2)}
+    *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body)} body{min-height:100dvh}
+    .app{max-width:680px;margin:0 auto;padding:var(--space-4)} .top{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);margin-bottom:var(--space-6)} .brand{display:flex;align-items:center;gap:.75rem}.logo{width:34px;height:34px;color:var(--color-primary)} h1{font-size:var(--text-xl);line-height:1.1;margin:0}.sub{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:.2rem}.toggle{border:1px solid var(--color-border);background:var(--color-surface);border-radius:999px;padding:.65rem .8rem;min-width:44px;min-height:44px}.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm);padding:var(--space-5)} .grid{display:grid;gap:var(--space-4)} @media(min-width:700px){.grid.two{grid-template-columns:1fr 1fr}} label{display:block;font-size:var(--text-sm);font-weight:700;margin-bottom:.45rem} input,select{width:100%;padding:.9rem 1rem;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:var(--color-surface-2);color:var(--color-text);font-size:var(--text-base);min-height:48px}.hint{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:.35rem}.slot{border:1px dashed var(--color-border);background:var(--color-surface-2);border-radius:var(--radius-lg);padding:var(--space-4);margin-top:1rem}.preview{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-top:var(--space-4)} .tile{border:1px solid var(--color-border);background:var(--color-surface-2);border-radius:var(--radius-md);padding:.5rem}.tile img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius-md)} .tile-meta{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-top:.45rem;font-size:var(--text-xs)} .remove-btn{border:none;background:var(--color-danger);color:white;border-radius:999px;padding:.45rem .65rem;font-size:var(--text-xs);font-weight:700} .btns{display:grid;gap:var(--space-3);margin-top:var(--space-6)} .btn{min-height:52px;border:none;border-radius:var(--radius-lg);font-size:var(--text-base);font-weight:700;padding:0 1rem}.btn-primary{background:var(--color-primary);color:white}.btn-primary:hover{background:var(--color-primary-hover)} .btn-secondary{background:var(--color-primary-highlight);color:var(--color-text)} .status{margin-top:var(--space-4);padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-surface-2);border:1px solid var(--color-border);font-size:var(--text-sm)} .steps{margin-top:var(--space-6);display:grid;gap:var(--space-3)} .step{display:flex;gap:.8rem;align-items:flex-start}.num{width:28px;height:28px;border-radius:999px;background:var(--color-primary-highlight);display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);font-weight:700}.small{font-size:var(--text-xs);color:var(--color-text-muted)}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="top">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 48 48" fill="none" aria-label="Listing Intake Logo"><rect x="5" y="7" width="24" height="34" rx="6" stroke="currentColor" stroke-width="4"/><path d="M31 15h12v26H19" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div>
+          <h1>Listing intake</h1>
+          <div class="sub">One picker, exactly 3 photos, remove mistakes before upload</div>
+        </div>
+      </div>
+      <button class="toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
+    </div>
+
+    <div class="card">
+      <div class="grid two">
+        <div>
+          <label for="itemNumber">Item Number</label>
+          <input id="itemNumber" placeholder="12" inputmode="numeric" />
+          <div class="hint">Required. Use your intake or item number.</div>
+        </div>
+        <div>
+          <label for="upc">UPC or Item Description</label>
+          <input id="upc" type="text" inputmode="text" placeholder="123456789012 or e.g. Rossignol Experience 80 Boot Black" />
+          <div class="hint">Enter UPC barcode OR a text description (Brand, Model, Color, Size) if no barcode is available.</div>
+        </div>
+      </div>
+
+      <div class="grid two" style="margin-top:1rem;">
+        <div>
+          <label for="condition">Condition</label>
+          <select id="condition">
+            <option value="LN">LN — Like New</option>
+            <option value="VG">VG — Very Good</option>
+            <option value="GD">GD — Good</option>
+            <option value="ACC">ACC — Acceptable</option>
+          </select>
+        </div>
+        <div>
+          <label for="apiBase">API Base URL</label>
+          <input id="apiBase" placeholder="https://api.yourdomain.com" />
+          <div class="hint">Required. Your backend URL goes here.</div>
+        </div>
+      </div>
+
+      <div class="slot">
+        <label for="photos">Choose Photos</label>
+        <input id="photos" type="file" accept="image/*" multiple />
+        <div class="hint">Select photos in one picker. You can remove mistakes before upload. Exactly 3 photos are required to submit.</div>
+      </div>
+
+      <div class="preview" id="preview"></div>
+
+      <div class="btns">
+        <button class="btn btn-secondary" id="clearBtn" type="button">Clear All Photos</button>
+        <button class="btn btn-primary" id="uploadBtn" type="button">Upload Item</button>
+      </div>
+
+      <div class="status" id="statusBox">Status: waiting for item details.</div>
+    </div>
+  </div>
+
+<script>
+const themeToggle = document.getElementById('themeToggle');
+let currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+themeToggle.addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+});
+
+const preview = document.getElementById('preview');
+const statusBox = document.getElementById('statusBox');
+const photosInput = document.getElementById('photos');
+let selectedFiles = [];
+
+function syncInputFiles() {
+  const dt = new DataTransfer();
+  selectedFiles.forEach(file => dt.items.add(file));
+  photosInput.files = dt.files;
+}
+
+function validateFiles(files){
+  if(files.length === 0) return 'Select exactly 3 photos.';
+  if(files.length < 3) return 'You selected fewer than 3 photos. Please select exactly 3.';
+  if(files.length > 3) return 'You selected more than 3 photos. Remove extras until only 3 remain.';
+  return null;
+}
+
+function renderPreview(){
+  preview.innerHTML = '';
+  selectedFiles.forEach((file, index) => {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.alt = file.name;
+
+    const meta = document.createElement('div');
+    meta.className = 'tile-meta';
+
+    const label = document.createElement('span');
+    label.textContent = `Photo ${index + 1}`;
+
+    const remove = document.createElement('button');
+    remove.className = 'remove-btn';
+    remove.type = 'button';
+    remove.textContent = 'Remove';
+    remove.addEventListener('click', () => {
+      selectedFiles.splice(index, 1);
+      syncInputFiles();
+      renderPreview();
+    });
+
+    meta.appendChild(label);
+    meta.appendChild(remove);
+    tile.appendChild(img);
+    tile.appendChild(meta);
+    preview.appendChild(tile);
+  });
+
+  const error = validateFiles(selectedFiles);
+  statusBox.textContent = error ? `Status: ${error}` : 'Status: 3 photos ready.';
+}
+
+photosInput.addEventListener('change', () => {
+  selectedFiles = Array.from(photosInput.files || []).slice(0, 10);
+  renderPreview();
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  selectedFiles = [];
+  syncInputFiles();
+  renderPreview();
+});
+
+async function uploadFile(url, file){
+  const res = await fetch(url, { method: 'PUT', headers: { 'Content-Type': file.type || 'image/jpeg' }, body: file });
+  if(!res.ok) throw new Error(`Upload failed with status ${res.status}`);
+}
+
+document.getElementById('uploadBtn').addEventListener('click', async () => {
+  const itemNumber = document.getElementById('itemNumber').value.trim();
+  const upc = document.getElementById('upc').value.trim();
+  const condition = document.getElementById('condition').value;
+  const apiBase = document.getElementById('apiBase').value.trim().replace(/\/$/, '');
+  const fileError = validateFiles(selectedFiles);
+
+  if(!itemNumber || !condition || !apiBase){ statusBox.textContent = 'Status: fill in item number, condition, and API Base URL.'; return; }
+  if(fileError){ statusBox.textContent = `Status: ${fileError}`; return; }
+
+  try {
+    statusBox.textContent = 'Status: requesting upload links...';
+    const sessionRes = await fetch(`${apiBase}/v1/uploads/session`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ item_number: Number(itemNumber), upc, condition_code: condition, content_types: selectedFiles.map(f => f.type || 'image/jpeg') })
+    });
+    if(!sessionRes.ok) throw new Error(`Session request failed: ${sessionRes.status}`);
+    const session = await sessionRes.json();
+    statusBox.textContent = 'Status: uploading 3 images to S3...';
+
+    for(let i=0; i<session.uploads.length; i++){
+      await uploadFile(session.uploads[i].upload_url, selectedFiles[i]);
+    }
+
+    statusBox.textContent = 'Status: confirming upload...';
+    const completeRes = await fetch(`${apiBase}/v1/uploads/complete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ item_number: Number(itemNumber), upc, condition_code: condition })
+    });
+    if(!completeRes.ok) throw new Error(`Complete request failed: ${completeRes.status}`);
+    const complete = await completeRes.json();
+    statusBox.textContent = `Status: item ${itemNumber} is ${complete.status}.`;
+  } catch (err) {
+    statusBox.textContent = `Status: error — ${err.message}`;
+  }
+});
+</script>
+</body>
+</html>
